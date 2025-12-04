@@ -148,13 +148,6 @@ class Tax extends MY_Controller {
 									)
 								);
 
-			// $this->buy->purchase_stock_out_by_trans_id(
-			// 	array(
-			// 		"due_sells_bosta_ss"	=> 0
-			// 	), 
-			// 	$this->input->post('trans_ids')
-			// );
-
 			$this->buy->update_purchase_this_transports_info(
 				array(
 					"pur_comsn_complete_check"	=> 1,
@@ -289,9 +282,6 @@ class Tax extends MY_Controller {
 	{
 		$customer_datas = $this->buy->get_customer_by_id($this->input->post('cust_ids'));
 		$sales_info = $this->buy->get_sales_data_by_uniq_id($this->input->post('sales_id'));
-
-		// $this->input->post('ttl_cust_amnt')
-		// (float) $customer_datas->sales_due + (float) $this->input->post('ttl_cust_amnt')
 
 		if ($sales_info->sales_status == 2 && $sales_info->sales_comission_check_this == 0) { 
 			$last_entry_id = $this->buy->insert_sales_commission_infos(

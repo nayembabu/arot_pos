@@ -289,7 +289,7 @@
           </ul>
         </li>
 
-        <li class=" staff_view_pages-active-li treeview">
+        <li class=" staff_view_pages-active-li staff_cost_view_page-active-li staff_cost_history-active-li treeview">
           <a href="#">
             <i class="fa fa-user-plus text-aqua"></i> স্টাফ </span>
             <span class="pull-right-container">
@@ -298,8 +298,8 @@
           </a>
           <ul class="treeview-menu">
               <li class="staff_view_pages-active-li"><a href="<?php echo $base_url; ?>staff_add"><i class="fa fa-plus-square-o "></i> <span>নতুন স্টাফ যোগ</span></a></li>
-              <li class="staff_view_pages-active-li"><a href="<?php echo $base_url; ?>staff_add"><i class="fa fa-minus-square-o "></i> <span>স্টাফ খরচ</span></a></li>
-                <li class="-active-li"><a href="<?php echo $base_url; ?>a/a"><i class="fa fa-dollar "></i> <span> স্টাফদের হিসাব </span></a></li>
+              <li class="staff_cost_view_page-active-li"><a href="<?php echo $base_url; ?>payment_types/staff_cost_added"><i class="fa fa-minus-square-o "></i> <span>স্টাফ খরচ</span></a></li>
+              <li class="staff_cost_history-active-li"><a href="<?php echo $base_url; ?>payment_types/staff_details_history"><i class="fa fa-dollar "></i> <span> স্টাফদের হিসাব </span></a></li>
           </ul>
         </li>
 

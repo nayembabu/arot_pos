@@ -119,26 +119,6 @@ class Sales extends MY_Controller {
         $data_pur_item_info = $this->buy->get_purchase_item_by_id($pur_item_id);
         $data_customer_info = $this->buy->get_customer_by_cus_id($data_sales_items_info->customer_id);
 
-        // if (empty($data_pur_item_info->supplyer_id_a_pr)) {
-        //     $supp = '';
-        //     $cuss = $data_pur_item_info->cust_auto_uniqss_id;
-        // }elseif (empty($data_pur_item_info->cust_auto_uniqss_id)) {
-        //     $supp = $data_pur_item_info->supplyer_id_a_pr;
-        //     $cuss = '';
-        // } 
-
-        // $this->buy->update_sales_items_tbl(
-        //     array(
-        //         "sales_qnty_bostas" => (int)$data_sales_items_info->sales_qnty_bostas - (int)$ttl_return_qnty
-        //     ), $data_sales_items_info->id 
-        // );
-
-        // if (empty($ttl_return_cost)) {
-        //     $unit_price = (float)$data_pur_item_info->price_per_unit;
-        // } else {
-        //     $unit_price = (float)$data_pur_item_info->price_per_unit + ((float)$ttl_return_cost/(float)$ttl_return_qnty/$data_sales_items_info->sales_kgs_perbosta); 
-        // }
-
 
 			$last_purchase_transports_id = $this->buy->insert_purchase_this_transports_info(
 				array( 

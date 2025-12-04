@@ -1,4 +1,4 @@
-<?php  
+<?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Buy_model extends CI_Model { 
@@ -40,6 +40,39 @@ class Buy_model extends CI_Model {
 		$this->db
 			 ->where('db_staff_info_id', $id)
 			 ->update('db_staff_info', $data);
+	}
+
+	public function get_cost_of_staffs($start_date, $end_datess)
+	{
+		return $this->db
+					->where('staff_cost_dates >=', $start_date)
+					->where('staff_cost_dates <=', $end_datess)
+					->join('db_staff_info', 'db_staff_info.db_staff_info_id = db_staff_cost_added.staff_unq_idd', 'left')
+					->get('db_staff_cost_added')
+					->result();
+	}
+
+	public function get_cost_of_staff_by_iddd($staff_id, $start_date, $end_date)
+	{
+		return $this->db
+					->where('staff_unq_idd', $staff_id)
+					->where('staff_cost_dates >=', $start_date)
+					->where('staff_cost_dates <=', $end_date)
+					->join('db_staff_info', 'db_staff_info.db_staff_info_id = db_staff_cost_added.staff_unq_idd', 'left')
+					->get('db_staff_cost_added')
+					->result();
+	}
+
+	public function delete_staff_cost_added($id)
+	{
+		$this->db->where('db_staff_cost_add_idd', $id)->delete('db_staff_cost_added');
+		$this->db->where('reference_no', $id)->delete('db_expense');
+	}
+
+	public function add_staff_cost_added($data)
+	{
+		$this->db->insert('db_staff_cost_added', $data);
+		return $this->db->insert_id();
 	}
 
 	public function get_haolat_info_by_cust_id_date_to_date($s, $e, $cust_id)

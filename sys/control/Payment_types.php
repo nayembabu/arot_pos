@@ -350,5 +350,83 @@ class Payment_types extends MY_Controller {
 		$result=$this->payment_types->delete_payment_type($id);
 		return $result;
 	}
-}
 
+	public function staff_cost_added(){
+		$data=$this->data;
+		$data['page_title']='স্টাফ খরচ';
+		$data['all_staff_infos']=$this->buy->get_staff_infos_data();
+		$this->load->view('staff_cost_view_page', $data);
+	}
+
+	public function get_cost_of_staffs()
+	{
+		$start_date = date('Y-m-01');
+		$end_date = date('Y-m-d', time());
+		$data['cost_of_staffs']=$this->buy->get_cost_of_staffs($start_date, $end_date);
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
+	public function add_staff_cost_added()
+	{
+		$last_no_id = $this->buy->add_staff_cost_added(
+			array(
+				"staff_unq_idd" 		=> $this->input->post('staff_id'),
+				"staff_cos_amounts" 	=> $this->input->post('cost_amount'),
+				"staff_cost_dates" 		=> date('Y-m-d', strtotime($this->input->post('cost_date'))),
+				"staff_notess" 			=> $this->input->post('cost_note'),
+				"insert_dates" 			=> date('Y-m-d', time()),
+				"insert_timming" 		=> time(),
+			) 
+		);
+
+
+		
+		$this->buy->insert_expense_data(
+			array(
+				"expense_date"							=> date('Y-m-d', strtotime($this->input->post('cost_date'))),
+				"reference_no"							=> $last_no_id,
+				"expense_for"							=> $this->input->post('staff_name').' স্টাফ খরচ ',
+				"expense_amt"							=> $this->input->post('cost_amount'),
+				"purcssss_idiiddi"						=> $last_no_id,
+				"o_p"									=> $last_no_id,
+				"created_date"							=> date('Y-m-d'), 
+				"created_time"							=> time(),
+				"status"								=> 1,
+			)
+		);
+
+		$this->output->set_content_type('application/json')->set_output(json_encode(array('status' => 'success', 'message' => 'স্টাফ খরচ যোগ করা হয়েছে')));
+	}
+
+	public function delete_staff_cost_added()
+	{
+		$this->buy->delete_staff_cost_added($this->input->post('id'));
+		$this->output->set_content_type('application/json')->set_output(json_encode(array('status' => 'success', 'message' => 'স্টাফ খরচ মুছুন করা হয়েছে')));
+	}
+
+	public function staff_details_history() 
+	{
+		$data=$this->data;
+		$data['page_title']='স্টাফ খরচ';
+		$data['all_staff_infos']=$this->buy->get_staff_infos_data();
+		$this->load->view('staff_cost_history', $data);
+	}
+
+	public function get_cost_of_staff_hist()
+	{
+		$staff_id = $this->input->post('staff_id');
+		$start_date = $this->input->post('start_date');
+		$end_date = $this->input->post('end_date');
+		$data['cost_of_staffs']=$this->buy->get_cost_of_staff_by_iddd($staff_id, $start_date, $end_date);
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
+
+	
+
+
+
+
+
+
+}
