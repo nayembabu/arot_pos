@@ -1,0 +1,8 @@
+[12-Mar-2025 08:28:08 Asia/Dhaka] PHP Fatal error:  Uncaught Error: Class "PHPUnit_Util_PHP" not found in /home/szfjjtji/brb/vendor/phpunit/phpunit/src/Util/PHP/Default.php:14
+Stack trace:
+#0 {main}
+  thrown in /home/szfjjtji/brb/vendor/phpunit/phpunit/src/Util/PHP/Default.php on line 14
+[12-Mar-2025 08:28:11 Asia/Dhaka] PHP Fatal error:  Uncaught Error: Class "PHPUnit_Util_PHP_Default" not found in /home/szfjjtji/brb/vendor/phpunit/phpunit/src/Util/PHP/Windows.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/szfjjtji/brb/vendor/phpunit/phpunit/src/Util/PHP/Windows.php on line 19

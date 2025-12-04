@@ -1,0 +1,19 @@
+ inputmode="numeric" 
+total_items_this_transport
+total_items_kgs_on_this_transport
+
+
+
+val
+total_prices_of_this_transport_ss
+unpaid_amount_of_this_transport_suppliers
+
+
+kup
+buying_quantity_bosta 
+buy_this_qnty
+qnty_per_bosta  
+kg_qnty_pers
+
+
+
