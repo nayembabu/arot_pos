@@ -35,7 +35,7 @@ $(document).on('click', '.serching_btn_this', function () {
                     let sales_item_calc_assigns = '';
 
                     for (let i = 0; i < sales_item_info.length; i++) {
-                        sales_item_calc_assigns += `<p>${sales_item_info[i].ref_lot_no} - ${formatter.format(sales_item_info[i].price_per_kg).getDigitBanglaFromEnglish()}/- - ${formatter.format(sales_item_info[i].sales_qnty_bostas).getDigitBanglaFromEnglish()}${sales_item_info[i].unit_name} -- ${formatter.format(sales_item_info[i].ttl_sale_kgs_this_product).getDigitBanglaFromEnglish()}কেজি</p>`;
+                        sales_item_calc_assigns += `<p class="view_buy_historys " purchase_item_id="${sales_item_info[i].pur_item_a_priddd}" style="cursor:pointer;" data-toggle="modal" data-target="#purchase_history_view" ><span class="glyphicon glyphicon-eye-open clickable" ></span> ${sales_item_info[i].ref_lot_no} - ${formatter.format(sales_item_info[i].price_per_kg).getDigitBanglaFromEnglish()}/- - ${formatter.format(sales_item_info[i].sales_qnty_bostas).getDigitBanglaFromEnglish()}${sales_item_info[i].unit_name} -- ${formatter.format(sales_item_info[i].ttl_sale_kgs_this_product).getDigitBanglaFromEnglish()}কেজি</p>`;
                     }
 
                     table_data.push({
@@ -315,6 +315,64 @@ function get_purchase_item_info_by_purchase_trans_id(pur_id) {
         async: false
     }).responseText;
 }
+
+$(document).on('click', '.view_buy_historys', function () {
+    let purchase_item_id = $(this).attr('purchase_item_id');
+    $.ajax({
+        type: "post",
+        url: "reports/get_purchase_info_by_purchase_item_id",
+        data: {
+            pi_id: purchase_item_id
+        },
+        dataType: "json",
+        success: function (res) {
+            $('.buy_history_details').html(`
+                    <div class="panel panel-primary" style="box-shadow: 0 2px 10px rgba(0,0,0,0.08); border-radius:10px;">
+                        <div class="panel-heading" style="background: linear-gradient(90deg, #56ccf2, #2f80ed); color: #fff; border-radius:10px 10px 0 0; padding:18px 15px;">
+                            <h3 class="panel-title" style="font-size: 22px; font-weight: bold;">
+                                <i class="glyphicon glyphicon-shopping-cart"></i> ক্রয়ের হিস্টোরি
+                            </h3>
+                        </div>
+                        <div class="panel-body" style="background-color:#fafbfc;">
+                            <div class="row">
+
+                                <div class="col-sm-12">
+                                    <div id="buy_history_details_content">
+                                        <table class="table table-bordered table-striped" style="margin-bottom: 0;">
+                                            <thead>
+                                                <tr style="background: #f0f8ff;">
+                                                    <th>মহাজনের নাম</th>
+                                                    <th>লট নং</th>
+                                                    <th>বস্তার পরিমাণ</th>
+                                                    <th>মোট কেজি</th>
+                                                    <th>প্রতি কেজি দাম</th>
+                                                    <th>মোট দাম</th>
+                                                    <th>ক্রয়ের তারিখ</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr style="background:rgb(255, 255, 255); font-size:16px; ">
+                                                    <td>${res.supplier_name}</td>
+                                                    <td>${res.ref_lot_no}</td>
+                                                    <td>${formatter.format(res.purchase_total_bosta).getDigitBanglaFromEnglish()}</td>
+                                                    <td>${formatter.format(res.ttl_purchase_kg_sss).getDigitBanglaFromEnglish()}</td>
+                                                    <td>${formatter.format(res.price_per_unit).getDigitBanglaFromEnglish()}</td>
+                                                    <td>${formatter.format(res.pur_total_price).getDigitBanglaFromEnglish()}</td>
+                                                    <td>${res.purchase_item_dates.getDigitBanglaFromEnglish()}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="buy_history_extra" style="margin-top:20px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+            `); 
+        }
+    });
+});
 
 $(document).on('click', '.view_selling_infos', function () {
     $.ajax({

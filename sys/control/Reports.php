@@ -135,6 +135,11 @@ class Reports extends MY_Controller {
         $this->output->set_content_type('application/json')->set_output(json_encode($sales_data));
 	}
 
+	public function get_purchase_info_by_purchase_item_id()
+	{
+        $this->output->set_content_type('application/json')->set_output(json_encode($this->buy->get_purchase_item_by_id($this->input->post('pi_id'))));
+	}
+
 	//Sales Return Report 
 	public function sales_return(){
 		$this->permission_check('sales_return_report');

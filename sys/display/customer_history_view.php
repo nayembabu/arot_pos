@@ -179,6 +179,7 @@
 <?php include"comman/code_js_export.php"; ?>
 
 
+
 <script src="<?php echo $theme_link; ?>js/report_customer_history.js"></script>
 
 <!-- <script src="<?php echo $theme_link; ?>js/ajaxselect/item_select_ajax.js"></script>   -->
@@ -206,12 +207,33 @@
 
 </script>
 
-
-
-
 <!-- Make sidebar menu hughlighter/selector -->
 <script>$(".<?php echo basename(__FILE__,'.php');?>-active-li").addClass("active");</script>
-    
+
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="purchase_history_view" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">ক্রয়ের বিস্তারিত</h4>
+      </div>
+      <div class="modal-body buy_history_details "></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
     
 </body>
 </html>
