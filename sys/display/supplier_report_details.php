@@ -168,8 +168,9 @@
                                 let sales_total_sum = 0
                                 report.items.forEach((item_sngl, index) => {
                                     let ttl_purchase_price = Math.round(item_sngl.pur_total_price);
-                                    let ttl_other_cost = (parseInt(report.ttl_com_amnt_for_trans || 0)+parseInt(report.ghar_kuli_cost_amnt_for_trans_with_cut || 0)+parseInt(report.driver_advance_amnt_cost || 0)+parseInt(report.supp_commis_items_wsss || 0)-parseInt(report.koifiyat_amount_tk_for_this_trans || 0));
-                                    let ttl_trans_cost = parseInt(report.ttl_trans_other_cost);
+                                    let ttl_other_cost = (parseInt(report.ttl_com_amnt_for_trans || 0)+parseInt(report.ghar_kuli_cost_amnt_for_trans_with_cut || 0)+parseInt(report.driver_advance_amnt_cost || 0)+parseInt(report.supp_commis_items_wsss || 0));
+
+                                    let ttl_trans_cost = parseInt(report.ttl_trans_other_cost || 0);
 
                                     let total_cost_perrr = ((parseInt(ttl_other_cost) + parseInt(ttl_trans_cost)) / report.ttl_items_bosta_this_trans) * parseInt(item_sngl.purchase_total_bosta);
 

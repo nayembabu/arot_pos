@@ -16,7 +16,7 @@ $(document).on('click', '.view_sales_reports', function () {
             toastr["warning"]("তারিখ সিলেক্ট করুন।");
             document.getElementById("to_date").focus();
             return;
-        }
+        } 
 
           $(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
           $.post("reports/show_sales_report",{from_date:from_date,to_date:to_date},function(result){
@@ -33,13 +33,17 @@ $(document).on('click', '.view_sales_reports', function () {
               for (let i = 0; i < sales_item_info.length; i++) {
                   sales_item_calc_assigns += `<p>${sales_item_info[i].ref_lot_no} - ${formatter.format(sales_item_info[i].price_per_kg).getDigitBanglaFromEnglish()}/- - ${formatter.format(sales_item_info[i].sales_qnty_bostas).getDigitBanglaFromEnglish()}${sales_item_info[i].unit_name}</p>`;
               }
+              let customer_namess = result[n].customer_name;
 
+              if (result[n].customer_code == 1731665672 && result[n].customer_full_name) {
+                customer_namess = result[n].customer_full_name;
+              }
 
               sales_data += `
                     <tr>
                       <td align="center" > ${n+1} </td>
                       <td ><a class="btn btn-sm btn-info" href="sales/sales_receipt_view_fun?sales_id=${result[n].id}" target="_blank" ><i class="fa fa-print"></i></a><a class="btn btn-sm btn-primary" style="margin-left: 5px; " ><i class="fa fa-edit"></i></a>  </td>
-                      <td align="center" > ${result[n].customer_name} </td>
+                      <td align="center" > ${customer_namess} </td>
                       <td align="center" > ${sales_item_calc_assigns} </td>
                       <td align="right" > ${result[n].ttl_sales_prices} </td>
                       <td align="center" > ${result[n].sales_date} </td>

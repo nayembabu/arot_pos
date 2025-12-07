@@ -415,10 +415,11 @@ class Buy_model extends CI_Model {
 	public function get_sales_info_by_date_to_date($sdate, $edates)
 	{
 		return $this->db
-					->select('b.imo_numbersss, b.whatsApp_number, b.customer_name, b.customer_code, b.mobile, b.address, b.sales_due, a.id, a.customer_id, a.grand_total, a.paid_amount, a.sales_date, a.sales_status, a.customer_id, a.ttl_sales_prices, a.sales_lebar_cost_sss, a.sales_ghat_vara_cost, a.sales_ttl_dis_countss, a.in_ttl_amounts_sales, a.sales_paid_able_amnt, a.cus_previous_amount_ttl, a.cus_ttl_due_s_now, a.subtotal, a.round_off, a.grand_total, a.payment_status, a.paid_amount, a.sales_carring_system_s, a.created_time, a.created_date')
-					->where('sales_date >=', $sdate)
-					->where('sales_date <=', $edates)
+					->select('b.imo_numbersss, b.whatsApp_number, b.customer_name, b.customer_code, b.mobile, b.address, b.sales_due, a.id, a.customer_id, a.grand_total, a.paid_amount, a.sales_date, a.sales_status, a.customer_id, a.ttl_sales_prices, a.sales_lebar_cost_sss, a.sales_ghat_vara_cost, a.sales_ttl_dis_countss, a.in_ttl_amounts_sales, a.sales_paid_able_amnt, a.cus_previous_amount_ttl, a.cus_ttl_due_s_now, a.subtotal, a.round_off, a.grand_total, a.payment_status, a.paid_amount, a.sales_carring_system_s, a.created_time, a.created_date, c.customer_full_name, c.cus_mobile_noo, c.cus_address_fulls, b.customer_code')
+					->where('a.sales_date >=', $sdate)
+					->where('a.sales_date <=', $edates)
 					->join('db_customers b', 'b.id = a.customer_id', 'left')
+					->join('normal_customer_details_infoss c', 'a.id = c.sales_unq_autos_iiidd', 'left')
 					->get('db_sales a')
 					->result(); 
 	}
