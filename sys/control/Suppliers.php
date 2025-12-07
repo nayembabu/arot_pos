@@ -204,10 +204,31 @@ class Suppliers extends MY_Controller {
 
 	public function get_data_date_to_date_report()
 	{
+		$supp_id = $this->input->post('supp_id');
+		$start_date = date('Y-m-d', strtotime($this->input->post('type_date_start')));
+		$end_datess = date('Y-m-d', strtotime($this->input->post('type_date_end')));
+		$data['supplier_info']=$this->buy->get_supplier_by_id($supp_id);
+		$data['supplier_report']=$this->buy->get_purchase_info_by_supp_date_to_date($start_date, $end_datess, $supp_id);
+		foreach ($data['supplier_report'] as $key => $single_data) {
+			$items = $this->buy->get_all_purchase_item_info_by_trans_id($single_data->db_purchase_transports_info_a_idd);
+			$data['supplier_report'][$key]->items = $items;
+			// $sales_info = $this->buy->get_sales_info_by_trans_idda($single_data->db_purchase_transports_info_a_idd);
+			// $data['supplier_report'][$key]->sales_info = $sales_info;
+		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
 
+	public function get_total_sales_count_by_piid()
+	{
+		$piid = $this->input->post('pi_id');
+		$sales_info = $this->buy->get_total_saless_count_by_piid($piid);
+		$this->output->set_content_type('application/json')->set_output(json_encode($sales_info));
 	}
 
 
 
 
+
+
 }
+

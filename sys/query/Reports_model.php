@@ -1674,7 +1674,7 @@ class Reports_model extends CI_Model {
 		return $query->result();
 	}
 
-	public function getsupp_sales($supp, $year)
+	public function get_supplier_report_date_to_date($supp, $s, $e)
 	{
 		
 	}

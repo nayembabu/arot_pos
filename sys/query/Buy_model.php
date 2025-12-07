@@ -143,16 +143,37 @@ class Buy_model extends CI_Model {
 					->row();
 	}
 
-	public function get_sales_item_info_by_trans_idd($trans_id) 
+	public function get_sales_item_info_by_trans_idd($trans_id)
 	{
-		return $this->db 
+		return $this->db
 					->where('trans_uniq_primary_id', $trans_id)
 					->join('db_sales', 'db_salesitems.sales_id = db_sales.id', 'left')
 					->join('db_customers', 'db_sales.customer_id = db_customers.id', 'left')
 					->join('db_purchaseitems', 'db_salesitems.pur_item_a_priddd = db_purchaseitems.id', 'left')
                     ->get('db_salesitems')
                     ->result();
-	} 
+	}
+
+	public function get_sales_info_by_trans_idda($trans_id)
+	{
+		$this->db->from('db_sales s');
+		$this->db->join('db_salesitems si', 'si.sales_id = s.id', 'left');
+		$this->db->where('si.trans_uniq_primary_id', $trans_id);
+		$this->db->group_by('s.id');
+		$q = $this->db->get();
+		return $q->result();
+	}
+
+	public function get_total_saless_count_by_piid($piid)
+	{
+		$this->db->select("
+			COALESCE(SUM(si.total_sales_price_cost_sss), 0) AS total_sales_price
+		");
+		$this->db->from("db_salesitems si");
+		$this->db->where("si.pur_item_a_priddd", $piid);
+		$query = $this->db->get();
+		return $query->row();
+	}
 
     public function insert_new_staff_info($dt)
     {
@@ -164,7 +185,6 @@ class Buy_model extends CI_Model {
         return $this->db
                     ->get('db_staff_info')
                     ->result();
-        
     } 
 
 	public function view_sells_info_by_puurchase_items_id($ptid)
@@ -195,10 +215,11 @@ class Buy_model extends CI_Model {
 					->where('sup_id_ass_iddd', $supp_id)
 					->where('pur_date_timsssss >=', $sDate)
                     ->where('pur_date_timsssss <=', $eDate)
+					->join('db_trans_port_profiles', 'db_purchase_transports_info.transport_i_a_iiiiidd = db_trans_port_profiles.db_transport_id', 'left')
 					->join('db_purchase_commission_submited', 'db_purchase_transports_info.db_purchase_transports_info_a_idd = db_purchase_commission_submited.trans_aauto_primary_idddd_un', 'left')
                     ->get('db_purchase_transports_info')
-                    ->result(); 
-	} 
+                    ->result();
+	}
 
 	public function get_purchases_infos_by_date_to_date($sDate, $eDate)
 	{
@@ -211,8 +232,8 @@ class Buy_model extends CI_Model {
 					->join('db_items', 'db_items.id = db_purchase_transports_info.products_items_at_ididii', 'left')
 					->join('db_units', 'db_items.unit_id = db_units.id', 'left')
                     ->get('db_purchase_transports_info')
-                    ->result(); 
-	} 
+                    ->result();
+	}
 
 	public function get_purchases_infos_by_date_to_date_and_trns_id($sDate, $eDate, $trans_id)
 	{
@@ -227,8 +248,8 @@ class Buy_model extends CI_Model {
 					->join('db_items', 'db_items.id = db_purchase_transports_info.products_items_at_ididii', 'left')
 					->join('db_units', 'db_items.unit_id = db_units.id', 'left')
                     ->get('db_purchase_transports_info')
-                    ->result(); 
-	} 
+                    ->result();
+	}
 
 	public function get_transport_give_amount_by_date_to_date_and_trns_id($sDate, $eDate, $trans_id)
 	{
@@ -250,8 +271,8 @@ class Buy_model extends CI_Model {
 					->join('db_items', 'db_items.id = db_purchase_transports_info.products_items_at_ididii', 'left')
 					->join('db_units', 'db_items.unit_id = db_units.id', 'left')
                     ->get('db_purchase_transports_info')
-                    ->row();  
-	} 
+                    ->row();
+	}
 
 	public function get_supplier_payments_date_to_date($suppID, $sDate, $edDate)
 	{
@@ -260,18 +281,18 @@ class Buy_model extends CI_Model {
                     ->where('payment_date >=', $sDate)
                     ->where('payment_date <=', $edDate)
                     ->get('db_supplier_payments')
-                    ->result(); 
+                    ->result();
 	}
 
 	public function get_customer_paid_amnt_by_cust_id_date_date($stDate, $endDate, $ccustID)
 	{
-		return $this->db 
+		return $this->db
                     ->where('customer_id', $ccustID)
-                    ->where('payment_timing !=', null) 
+                    ->where('payment_timing !=', null)
                     ->where('payment_date >=', $stDate)
                     ->where('payment_date <=', $endDate)
                     ->get('db_customer_payments')
-                    ->result(); 
+                    ->result();
 	}
 
 	public function insert_sales_commission_infos($datas)
