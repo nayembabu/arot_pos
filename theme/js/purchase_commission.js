@@ -444,7 +444,7 @@ $(document).on('click', '.save_the_buying_commissionsss_s', function () {
                     });
                 }
 
-            }  
+            }
         });
     }else {
         return false;

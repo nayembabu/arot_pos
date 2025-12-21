@@ -113,11 +113,19 @@ class Tax extends MY_Controller {
 
 	public function entry_of_purchasess_comissions_ss()
 	{
-		if (empty($this->input->post('supp_ids'))) {
+		if (empty($this->input->post('supp_ids')) || $this->input->post('supp_ids') == null || $this->input->post('supp_ids') == '' || $this->input->post('transport_id') == null || $this->input->post('transport_id') == '' || empty($this->input->post('transport_id'))) {
 			echo 0;
 		}else {
 			$supp_datas = $this->buy->get_supplier_by_id($this->input->post('supp_ids'));
 			$trans_data = $this->buy->get_trans_purchase_info_by_trans_idd($this->input->post('transport_id'));
+
+			$this->buy->update_purchase_this_transports_info(
+				array(
+					"pur_comsn_complete_check"	=> 1,
+					"ttl_due_bosta_this_trans"	=> 0,
+				), 
+				$this->input->post('transport_id')
+			);
 
 			$insert_last_iddd = $this->buy->insert_purchase_commission(
 									array(
@@ -148,29 +156,6 @@ class Tax extends MY_Controller {
 									)
 								);
 
-			$this->buy->update_purchase_this_transports_info(
-				array(
-					"pur_comsn_complete_check"	=> 1,
-					"comns_completed_id_no"		=> $insert_last_iddd, 
-					"ttl_due_bosta_this_trans"	=> 0,
-				), 
-				$this->input->post('transport_id')
-			);
-			
-			$last_purchase_id = $this->buy->update_supplier_due_unpayment_amt_by_trans_id(
-				array(
-					'ttl_due_nowsss_purchasess' 		=> $this->input->post('ttl_sales_amnt'),
-				), 
-				$this->input->post('trans_ids')
-			); 
-
-			$this->buy->update_supplier_info_by_id(
-				array(
-					"purchase_due" => (float)$supp_datas->purchase_due + (float)$this->input->post('ttl_amnt_sss')
-				),
-				$this->input->post('supp_ids')
-			);
-
 			$pur_items_id			= array($this->input->post('pur_items_id')); 
 			$pur_idd				= array($this->input->post('pur_idd')); 
 			$trans_pur_idd			= array($this->input->post('trans_pur_idd')); 
@@ -198,6 +183,22 @@ class Tax extends MY_Controller {
 				}
 			}
 			$this->buy->insert_batch_purchase_comns_sales($data);
+
+			$this->buy->update_supplier_info_by_id(
+				array(
+					"purchase_due" => (float)$supp_datas->purchase_due + (float)$this->input->post('ttl_amnt_sss')
+				),
+				$this->input->post('supp_ids')
+			);
+
+			$last_purchase_id = $this->buy->update_supplier_due_unpayment_amt_by_trans_id(
+				array(
+					'ttl_due_nowsss_purchasess' 		=> $this->input->post('ttl_sales_amnt'),
+				), 
+				$this->input->post('trans_ids')
+			); 
+
+
 			echo $insert_last_iddd; 
 		}
 	}  
