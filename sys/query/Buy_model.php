@@ -83,7 +83,15 @@ class Buy_model extends CI_Model {
 					->where('due_sales_dates_times >=', $s)
 					->where('due_sales_dates_times <=', $e)
 					->get('db_customer_due_unpay_amounts')
-					->result(); 
+					->result();
+	}
+
+	public function get_trans_info_by_unq_id($uniqid)
+	{
+		return $this->db
+					->where('check_uniq_id', $uniqid)
+        			->get('db_purchase_transports_info')
+        			->row();
 	}
 
 	public function get_parchase_cust_by_cust_id_and_date_to_date($s, $e, $cust_id)

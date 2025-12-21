@@ -337,6 +337,12 @@
                         pur_item_id: piid
                     },
                     dataType: "json",
+                    beforeSend: function() {
+                        $('.spiner_load_activity').css('display', 'block');
+                    },
+                    complete: function() {
+                        $('.spiner_load_activity').css('display', 'none');
+                    },
                     success: function (rs) {
                         let tbody = document.getElementById('detailBody');
                         tbody.innerHTML = '';

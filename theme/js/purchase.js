@@ -1168,10 +1168,11 @@ function delete_purchase_payment(payment_id){
                 $('.buy_this_type_btn').css('display', 'block');
               },
               success: function (res) {
-                
+
                 if (res == 0) {
-                  toastr["error"]("আপনার কোথাও ভুল হচ্ছে, চেক করুন। ");                  
-                } else { 
+                  toastr["error"]("আপনার কোথাও ভুল হচ্ছে, চেক করুন। রিলোড করে আবার চেষ্টা করুন। ");
+                  setTimeout(() => { location.reload(); }, 5000);
+                } else {
                   if ($('.rastay_namce_bosta').val() == '' || $('.rastay_namce_bosta').val() == 0) {
                     $('.account_form_assign_sys').html(``);
                   } else {
@@ -1181,7 +1182,10 @@ function delete_purchase_payment(payment_id){
                   $('.buy_types_products_sys').html(``);
                   $('.submit_btn_buy_sys').html(``);
                   $('type_lot_nosss').val('');
-                  toastr["success"]("আপনার ক্রয় সফল হয়েছে। ");                  
+                  toastr["success"]("আপনার ক্রয় সফল হয়েছে। ");
+
+                  setTimeout(() => { location.reload(); }, 5000);
+
                 }
               }
           });

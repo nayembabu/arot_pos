@@ -122,6 +122,12 @@
                     supp_id: sup_id
                 },
                 dataType: "json",
+                beforeSend: function() {
+                    $('.spiner_load_activity').css('display', 'block');
+                },
+                complete: function() {
+                    $('.spiner_load_activity').css('display', 'none');
+                },
                 success: function (res) {
 
                     let total_costs = parseFloat(res.supplier_purchase_summary.total_transport_vara) + parseFloat(res.supplier_purchase_summary.total_transport_commission) + parseFloat(res.supplier_purchase_summary.total_ghar_kuli) + parseFloat(res.supplier_purchase_summary.total_driver_advance);

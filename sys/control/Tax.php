@@ -119,14 +119,6 @@ class Tax extends MY_Controller {
 			$supp_datas = $this->buy->get_supplier_by_id($this->input->post('supp_ids'));
 			$trans_data = $this->buy->get_trans_purchase_info_by_trans_idd($this->input->post('transport_id'));
 
-			$this->buy->update_purchase_this_transports_info(
-				array(
-					"pur_comsn_complete_check"	=> 1,
-					"ttl_due_bosta_this_trans"	=> 0,
-				), 
-				$this->input->post('transport_id')
-			);
-
 			$insert_last_iddd = $this->buy->insert_purchase_commission(
 									array(
 										"trans_aauto_primary_idddd_un"			=> $this->input->post('transport_id'), 
@@ -169,20 +161,28 @@ class Tax extends MY_Controller {
 				foreach ($value as $key1 => $value1) {
 					$data[] = [
 						'trans_id_unq_prr' 					=> $this->input->post('transport_id'),
-						'pur_item_unq_auto_idddddddddd' 	=> $pur_items_id[$key][$key1],
-						'purchase_auto_unqqq_idddds' 		=> $pur_idd[$key][$key1],
+						'pur_item_unq_auto_idddddddddd' 	=> $pur_items_id[$key][$key1] ?? '',
+						'purchase_auto_unqqq_idddds' 		=> $pur_idd[$key][$key1] ?? '',
 						'purchase_cmns_unq_iddd'			=> $insert_last_iddd,
 						'supp_unqsss_iddddd'				=> $this->input->post('supp_ids'),
-						'ttl_salessss_bostaass'				=> $ttl_bosta_b[$key][$key1],
-						'ttl_weight_bostassssssss'			=> $ttl_weights[$key][$key1],
-						'saling_pricesssssss'				=> $kg_rate_box[$key][$key1],
-						'ttl_sales_amount_sssssss'			=> $ttl_rates_t[$key][$key1],
+						'ttl_salessss_bostaass'				=> $ttl_bosta_b[$key][$key1] ?? '',
+						'ttl_weight_bostassssssss'			=> $ttl_weights[$key][$key1] ?? '',
+						'saling_pricesssssss'				=> $kg_rate_box[$key][$key1] ?? '',
+						'ttl_sales_amount_sssssss'			=> $ttl_rates_t[$key][$key1] ?? '',
 						'cr_datesss'						=> date('Y-m-d'),
 						'cr_timingssss'						=> time(),
 					];
 				}
 			}
 			$this->buy->insert_batch_purchase_comns_sales($data);
+
+			$this->buy->update_purchase_this_transports_info(
+				array(
+					"pur_comsn_complete_check"	=> 1,
+					"ttl_due_bosta_this_trans"	=> 0,
+				), 
+				$this->input->post('transport_id')
+			);
 
 			$this->buy->update_supplier_info_by_id(
 				array(
@@ -197,8 +197,6 @@ class Tax extends MY_Controller {
 				), 
 				$this->input->post('trans_ids')
 			); 
-
-
 			echo $insert_last_iddd; 
 		}
 	}  
