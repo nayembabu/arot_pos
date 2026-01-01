@@ -38,9 +38,9 @@ class Purchase extends MY_Controller {
 			$trans_cost_add = 0;
 			$supp_now_due_amntsssss = 0;
 
-			if ($trans_data) {
-				echo 0;
-			}else {
+			// if ($trans_data) {
+			// 	echo 0;
+			// }else {
 
 				if ($this->input->post('buying_system') == '1') {  
 					if (!empty($this->input->post('cost_of_transport'))) { 
@@ -315,7 +315,7 @@ class Purchase extends MY_Controller {
 					)
 				);
 				echo $last_purchase_transports_id;
-			}
+			// }
 		}
 	}
  
