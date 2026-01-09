@@ -77,14 +77,18 @@
         <div class="info"><?= $company_info->address;?></div>
         <div class="info">মোবাইল: <?= BanglaConverter::en2bn($company_info->mobile);?></div>
         <div class="separator"></div>
-        <div class="info">তারিখঃ <?= BanglaConverter::en2bn(date('d-m-Y', strtotime($cmns_info->date_of_commission_save)));?></div>
+        <div class="info">
+            <b>ক্রয়ের তারিখঃ <?= BanglaConverter::en2bn(date('d-m-Y', strtotime($cmns_info->pur_date_timsssss)));?></b>
+            <br>
+            তারিখঃ <?= BanglaConverter::en2bn(date('d-m-Y', strtotime($cmns_info->date_of_commission_save)));?>
+        </div>
         <div class="customer-info">
             <div class="info"><strong>মহাজন:</strong> <?= $cmns_info->supplier_name;?></div>
             <div class="info"> <?= $cmns_info->address;?></div>
             <div class="info">মোবাইল: <?= BanglaConverter::en2bn($cmns_info->mobile);?></div>
         </div>
         <div class="separator"></div>
-        
+
             <?php foreach ($cmns_sales_items_info as $item) { 
                 $ttl_item_amount[]=$item->ttl_sales_amount_sssssss; ?>
 
