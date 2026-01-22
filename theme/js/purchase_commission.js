@@ -1,35 +1,7 @@
 
-$(document).on('click', '.add-btn', function () {
-    $('.append_contain_boxs').append(
-        `<div class="sscontainer-box">
-            <div class="row tr_all_input_box ">
-                <div class="col-md-2">
-                    <label>মোট বস্তা</label>
-                    <input type="text" class="form-control ttl_bosta_box " inputmode="numeric" placeholder="মোট বস্তা">
-                </div>
-                <div class="col-md-3">
-                    <label>ওজন:</label>
-                    <input type="text" class="form-control ttl_weight_box_ss " inputmode="numeric" placeholder="মোট ওজন">
-                </div>
-                <div class="col-md-3">
-                    <label>দাম</label>
-                    <input type="text" class="form-control kg_rate_box_s " inputmode="numeric" placeholder="দাম">
-                </div>
-                <div class="col-md-3">
-                    <label>মোট দাম</label>
-                    <input type="text" class="form-control ttl_rates_this_rowss " inputmode="numeric" placeholder="মোট দাম" readonly>
-                </div>
-                <div class="col-md-1 text-center">
-                    <br>
-                    <button class="ssdelete-btn"><i class="fa fa-trash"></i></button>
-                </div>
-            </div>
-        </div>`
-    );
-});
-
 $(document).on('click', '.ssdelete-btn', function () {
-    $(this).parents('.sscontainer-box').remove();
+    let pu_r_id = $(this).attr('attrppp_id');
+    $(this).parents('.add_tr_here_' + pu_r_id).remove();
 });
 
 
@@ -46,13 +18,14 @@ $(document).on('change', '.item_select_unq_idds', function () {
             for (let s = 0; s < rps.items_info.length; s++) { 
                 dts += `<option value="${rps.items_info[s].sup_id_ass_iddd}">${rps.items_info[s].supplier_name}</option>`;
             }
-            $('.supp_datas_info_assignss').html(`
-                        <div class="input-group input-group-lg">
-                            <select class="form-control supp_selected_unqs_id " >
-                                <option value="">মহাজন সিলেক্ট করুন</option>${dts}
-                            </select>
-                            <span class="input-group-addon btn btn-warning check_commsion_items_info " ><i class="fa fa-check-circle"></i></span>
-                        </div>`);
+            $('.supp_datas_info_assignss').html(
+                `<div class="input-group input-group-lg">
+                    <select class="form-control supp_selected_unqs_id " >
+                        <option value="">মহাজন সিলেক্ট করুন</option>${dts}
+                    </select>
+                    <span class="input-group-addon btn btn-warning check_commsion_items_info " ><i class="fa fa-check-circle"></i></span>
+                </div>`
+            );
         }
     });
 });
@@ -105,7 +78,7 @@ $(document).on('click', '.click_transport_lot_no', function () {
             let html_data = '';
             for (let lm = 0; lm < rsp.pur_items.length; lm++) {
                 get_sales_full_infos(rsp.pur_items[lm].id);
-                // const element = rsp[lm]; 
+                // const element = rsp[lm];
                 html_data += `<div class="col-md-3 col-sm-4 sales_itemss_boxss" pur_items_unq_auto_iddd="${rsp.pur_items[lm].id}" purchases_idd="${rsp.pur_items[lm].purchase_id}" pur_trans_auto_iddds="${rsp.pur_items[lm].purchase_trans_info_auto_pr_iddds}" items_iiiiid="${rsp.pur_items[lm].item_id}" style="cursor: pointer; margin-top: 10px;">
                                     <div class="product-card">
                                         <span class="qty-badge">Qty: ${rsp.pur_items[lm].purchase_qty}-বস্তা </span>
@@ -121,7 +94,7 @@ $(document).on('click', '.click_transport_lot_no', function () {
                                                 <div class="row ">
                                                     ${html_data}
                                                 </div>
-                                            </div>  
+                                            </div>
                                         </div>` );
             $('.sales_infos_assign_ing_cls').css('display', 'block');
             $('.cost_infos_assignsssss_s').html(`<div class="trans_port_id" trans_id="${rsp.trans_info.db_purchase_transports_info_a_idd}"></div>
@@ -167,6 +140,8 @@ $(document).on('click', '.click_transport_lot_no', function () {
 });
 
 
+
+
 function get_sales_full_infos(pur_item_id) {
 
     $.ajax({
@@ -178,7 +153,7 @@ function get_sales_full_infos(pur_item_id) {
         success: function (resp) {
             let html_data_sales = '';
             for (let a = 0; a < resp.sales_item_info.length; a++) {
-                html_data_sales += `<div class="sscontainer-box">
+                html_data_sales += `<div class="add_tr_here_${pur_item_id} ">
                                         <div class="row tr_all_input_box" pur_items_unq_auto_iddd="${resp.sales_item_info[a].pur_item_a_priddd}" purchases_idd="${resp.sales_item_info[a].purchase_apr_ids}" pur_trans_auto_iddds="${resp.sales_item_info[a].trans_uniq_primary_id}" items_iiiiid="${resp.sales_item_info[a].item_id}" >
                                             <div class="col-md-2">
                                                 <label>মোট বস্তা</label>
@@ -198,16 +173,52 @@ function get_sales_full_infos(pur_item_id) {
                                             </div>
                                             <div class="col-md-1 text-center">
                                                 <br>
-                                                <button class="ssdelete-btn"><i class="fa fa-trash"></i></button>
+                                                <button class="ssdelete-btn" attrppp_id="${pur_item_id}"><i class="fa fa-trash"></i></button>
                                             </div>
                                         </div>
                                     </div>`
             }
-            $('.append_contain_boxs').append(`<h3 class="text-center lot_names_assgng " pur_item_id="${pur_item_id}" style="margin-top: 0; " > ${resp.pur_item_info.ref_lot_no} </h3> ${html_data_sales}`);
+            $('.append_contain_boxs').append(`<div class="sscontainer-box" ><h3 class="text-center lot_names_assgng " pur_item_id="${pur_item_id}" style="margin-top: 0; " > ${resp.pur_item_info.ref_lot_no} </h3> ${html_data_sales} <div class="data_input"></div> <div class="text-center " style="margin-top: 15px;"><button type="button" class="btn btn-primary add-btn add_btn_here_s " attr_s_id="${pur_item_id}">আরো যোগ করুন</button></div></div><hr>`);
         }
     });
-
 }
+
+
+$(document).on('click', '.add_btn_here_s', function () {
+    let pur_item_id_attr_check = $(this).attr('attr_s_id');
+
+    $(this).parents('.sscontainer-box').find('.data_input').append(
+        `<div class="add_tr_here_${pur_item_id_attr_check} ">
+            <div class="row tr_all_input_box ">
+                <div class="col-md-2">
+                    <label>মোট বস্তা</label>
+                    <input type="text" class="form-control ttl_bosta_box ${pur_item_id_attr_check}_lotBostas" inputmode="numeric" placeholder="মোট বস্তা">
+                </div>
+                <div class="col-md-3">
+                    <label>ওজন:</label>
+                    <input type="text" class="form-control ttl_weight_box_ss ${pur_item_id_attr_check}_lotWeightss" inputmode="numeric" placeholder="মোট ওজন">
+                </div>
+                <div class="col-md-3">
+                    <label>দাম</label>
+                    <input type="text" class="form-control kg_rate_box_s ${pur_item_id_attr_check}_lotRatess" inputmode="numeric" placeholder="দাম">
+                </div>
+                <div class="col-md-3">
+                    <label>মোট দাম</label>
+                    <input type="text" class="form-control ttl_rates_this_rowss ${pur_item_id_attr_check}_lotTotalRatess" inputmode="numeric" placeholder="মোট দাম" readonly>
+                </div>
+                <div class="col-md-1 text-center">
+                    <br>
+                    <button class="ssdelete-btn" attrppp_id="${pur_item_id_attr_check}"><i class="fa fa-trash"></i></button>
+                </div>
+            </div>
+        </div>`
+    );
+});
+
+
+
+
+
 
 $(document).on('keyup', '.ttl_bosta_box, .ttl_weight_box_ss, .kg_rate_box_s', function () {
     let qnty_bosta = 0;
@@ -331,7 +342,7 @@ $(document).on('click', '.commission_checking_ss_btn', function () {
             let kg_rate = parseFloat($(this).find('.kg_rate_box_s').val());
             let ttl_rates = parseFloat($(this).find('.ttl_rates_this_rowss').val());
             ttl_sales_amnt_taka += ttl_rates;
-    
+
             sales_htmlaaa += `<tr>
                                 <td>${formatter.format(ttl_bosta).getDigitBanglaFromEnglish()} বস্তা</td>
                                 <td>${formatter.format(ttl_weight).getDigitBanglaFromEnglish()} কেজি</td>
@@ -348,15 +359,14 @@ $(document).on('click', '.commission_checking_ss_btn', function () {
         let total_weight = 0;
         let ttl_taka_amnt = 0;
 
-
         sales_htmlaaa += `<tr class="bg-info text-white ">
                             <td colspan="4">${lot_name}</td>
                         </tr>`;
         $('.' + pur_item_idd + '_lotBostas').each(function (i) {
-            let ttl_bosta = parseFloat($(this).val());
-            let ttl_weight = parseFloat($('.' + pur_item_idd + '_lotWeightss').eq(i).val());
-            let kg_rate = parseFloat($('.' + pur_item_idd + '_lotRatess').eq(i).val());
-            let ttl_rates = parseFloat($('.' + pur_item_idd + '_lotTotalRatess').eq(i).val());
+            let ttl_bosta = parseFloat($(this).val()) || 0;
+            let ttl_weight = parseFloat($('.' + pur_item_idd + '_lotWeightss').eq(i).val()) || 0;
+            let kg_rate = parseFloat($('.' + pur_item_idd + '_lotRatess').eq(i).val()) || 0;
+            let ttl_rates = parseFloat($('.' + pur_item_idd + '_lotTotalRatess').eq(i).val()) || 0;
 
             total_bosta += ttl_bosta;
             total_weight += ttl_weight;

@@ -56,7 +56,25 @@ class Reports extends MY_Controller {
 		$data['expense_count'] = $this->buy->get_expense_data_count($company_start_date, date('Y-m-d'));
 
 		$this->load->view('report-cash-in-hand', $data);
-	} 
+	}
+
+	public function monthly_sales()
+	{
+		$this->permission_check('profit_report'); 
+		$data=$this->data;
+		$data['page_title']= 'মাসিক বিক্রয় হিসাব';
+		$this->load->view('report-monthly_sales', $data);
+	}
+
+	public function get_monthly_sales_repots_json()
+	{
+		$year = $this->input->post('year');
+		$st_date = "$year-01-01";
+		$end_date = "$year-12-31";
+		$data['monthly_sales'] = $this->buy->get_month_wise_sales_reports($st_date, $end_date);
+		// $this->load->view('report-monthly_sales', $data);
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));		
+	}
 
 	public function laber_cost_view_func_ss()
 	{

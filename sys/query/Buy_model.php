@@ -1351,6 +1351,34 @@ class Buy_model extends CI_Model {
 					->row();
 	}
 
+	public function get_month_wise_sales_reports($start_date, $end_date)
+	{
+		$this->db->select("
+			DATE_FORMAT(s.sales_date, '%Y-%m') AS sales_month,
+			i.item_name,
+
+			SUM(CASE WHEN s.sales_status = 1
+				THEN si.total_sales_price_cost_sss ELSE 0 END) AS direct_amount,
+
+			SUM(CASE WHEN s.sales_status = 2
+				THEN si.total_sales_price_cost_sss ELSE 0 END) AS commission_amount,
+
+			SUM(si.total_sales_price_cost_sss) AS total_amount
+		", false);
+
+		$this->db->from('db_sales s');
+		$this->db->join('db_salesitems si', 'si.sales_id = s.id');
+		$this->db->join('db_items i', 'i.id = si.item_id');
+
+		$this->db->where('s.sales_date >=', $start_date);
+		$this->db->where('s.sales_date <',  $end_date);
+
+		$this->db->group_by(['sales_month', 'i.id']);
+		$this->db->order_by('sales_month', 'ASC');
+
+		return $this->db->get()->result();
+	}
+
 
 
 

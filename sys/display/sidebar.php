@@ -331,7 +331,7 @@
           </ul>
         </li>
 
-        <li class="report-sales-active-li report_laber_cost_view_file-active-li report-cash-in-hand-active-li report-profit-loss-active-li report-purchase-active-li report-purchase-item-active-li suppliyer-reports-active-li report-stock-active-li treeview">
+        <li class="report-monthly_sales-active-li report-sales-active-li report_laber_cost_view_file-active-li report-cash-in-hand-active-li report-profit-loss-active-li report-purchase-active-li report-purchase-item-active-li suppliyer-reports-active-li report-stock-active-li treeview">
             <a href="#">
                 <i class="fa fa-usd text-aqua"></i><span> রিপোর্ট</span>
                 <span class="pull-right-container">
@@ -340,6 +340,7 @@
             </a>
             <ul class="treeview-menu">
                 <li class="report-sales-active-li"><a href="<?php echo $base_url; ?>reports/sales" ><i class="fa fa-files-o "></i> <span> বিক্রয় রিপোর্ট </span></a></li>
+                <li class="report-monthly_sales-active-li"><a href="<?php echo $base_url; ?>reports/monthly_sales" ><i class="fa fa-files-o "></i> <span> মাসিক বিক্রয় রিপোর্ট </span></a></li>
                 <li class="report-purchase-active-li"><a href="<?php echo $base_url; ?>reports/purchase" ><i class="fa fa-files-o "></i> <span> ক্রয় রিপোর্ট </span></a></li>
                 <li class="report_laber_cost_view_file-active-li"><a href="<?php echo $base_url; ?>reports/laber_cost_view_func_ss" ><i class="fa fa-files-o "></i> <span> লেবার খরচ রিপোর্ট </span></a></li>
                 <li class="report-cash-in-hand-active-li"><a href="<?php echo $base_url; ?>reports/cash_insss" ><i class="fa fa-files-o "></i> <span> ক্যাশ হিসাব </span></a></li>

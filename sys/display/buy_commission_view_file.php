@@ -362,9 +362,6 @@
                                                     <div class="panel panel-primary" style="border-radius: 15px; padding: 0 0 20px 0;">
                                                         <div class="sspanel-heading">বিক্রয় তথ্য</div>
                                                         <div class="panel-body append_contain_boxs"></div>
-                                                        <div class="text-center add_contain_boxx">
-                                                            <button type="button" class="btn btn-primary add-btn">আরো যোগ করুন</button>
-                                                        </div>
                                                     </div>
                                                 </div>
 
