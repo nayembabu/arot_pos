@@ -72,6 +72,7 @@ class Reports extends MY_Controller {
 		$st_date = "$year-01-01";
 		$end_date = "$year-12-31";
 		$data['monthly_sales'] = $this->buy->get_month_wise_sales_reports($st_date, $end_date);
+		$data['monthly_sales_bosta'] = $this->buy->get_month_wise_sales_reports_bostas($st_date, $end_date);
 		// $this->load->view('report-monthly_sales', $data);
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));		
 	}

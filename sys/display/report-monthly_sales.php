@@ -137,9 +137,12 @@ $(document).on('click', '.search_report_btn', function () {
         success: function (res) {
 
             let data = res.monthly_sales;
+            let bostadata = res.monthly_sales_bosta;
 
             // Step 1: Month-wise total calculate
             let monthTotals = {};
+            let monthTotalsBosta = {};
+            let grandTotalBosta = 0;
             let grandTotal = 0;
 
             $.each(data, function (_, row) {
@@ -149,6 +152,15 @@ $(document).on('click', '.search_report_btn', function () {
                 }
                 monthTotals[row.sales_month] += total;
                 grandTotal += total;
+            });
+
+            $.each(bostadata, function (_, row) {
+                let totalbosta = parseFloat(row.commission_amount) + parseFloat(row.direct_amount);
+                if (!monthTotalsBosta[row.sales_month]) {
+                    monthTotalsBosta[row.sales_month] = 0;
+                }
+                monthTotalsBosta[row.sales_month] += totalbosta;
+                grandTotalBosta += totalbosta;
             });
 
             // Step 1: Backend থেকে item list auto generate
@@ -228,7 +240,8 @@ $(document).on('click', '.search_report_btn', function () {
                     <thead>
                         <tr class="info">
                             <th>মাস</th>
-                            <th>মোট বিক্রয়</th>
+                            <th>মোট বিক্রয় টাকা</th>
+                            <th>মোট বিক্রয় বস্তা</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -237,9 +250,11 @@ $(document).on('click', '.search_report_btn', function () {
 
             // Step 3: Table rows
             $.each(monthTotals, function (month, total) {
+                let bosta = monthTotalsBosta[month] || 0;
                 htmlshort += `<tr>
                     <td>${bnMonth(month)}</td>
                     <td>${formatter.format(total.toFixed(0)).getDigitBanglaFromEnglish()}</td>
+                    <td>${formatter.format(bosta.toFixed(0)).getDigitBanglaFromEnglish()}</td>
                     <td></td>
                 </tr>`;
             });
@@ -248,6 +263,7 @@ $(document).on('click', '.search_report_btn', function () {
             htmlshort += `<tr class="info">
                         <th>মোট ${typing_yearas} </th>
                         <th>${formatter.format(grandTotal.toFixed(0)).getDigitBanglaFromEnglish()}</th>
+                        <th>${formatter.format(grandTotalBosta.toFixed(0)).getDigitBanglaFromEnglish()}</th>
                         <th></th>
                     </tr>`;
 
