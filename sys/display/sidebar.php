@@ -331,7 +331,7 @@
           </ul>
         </li>
 
-        <li class="report-monthly_sales-active-li report-sales-active-li report_laber_cost_view_file-active-li report-cash-in-hand-active-li report-profit-loss-active-li report-purchase-active-li report-purchase-item-active-li suppliyer-reports-active-li report-stock-active-li treeview">
+        <li class="report-monthly_sales-active-li report-sales-active-li report_laber_cost_view_file-active-li report-cash-in-hand-active-li report-profit-loss-active-li report-commission-profit-loss-active-li report-purchase-active-li report-purchase-item-active-li suppliyer-reports-active-li report-stock-active-li treeview">
             <a href="#">
                 <i class="fa fa-usd text-aqua"></i><span> রিপোর্ট</span>
                 <span class="pull-right-container">
@@ -345,6 +345,7 @@
                 <li class="report_laber_cost_view_file-active-li"><a href="<?php echo $base_url; ?>reports/laber_cost_view_func_ss" ><i class="fa fa-files-o "></i> <span> লেবার খরচ রিপোর্ট </span></a></li>
                 <li class="report-cash-in-hand-active-li"><a href="<?php echo $base_url; ?>reports/cash_insss" ><i class="fa fa-files-o "></i> <span> ক্যাশ হিসাব </span></a></li>
                 <li class="report-profit-loss-active-li"><a href="<?php echo $base_url; ?>reports/profit_loss" ><i class="fa fa-files-o "></i> <span> আয় ব্যায় </span></a></li>
+                <li class="report-commission-profit-loss-active-li"><a href="<?php echo $base_url; ?>reports/commission_profit_loss" ><i class="fa fa-files-o "></i> <span> কমিশন লাভ-ক্ষতি </span></a></li>
                 <li class="report-purchase-item-active-li"><a href="<?php echo $base_url; ?>reports/item_purchase" ><i class="fa fa-files-o "></i> <span>আইটেম রিপোর্ট</span></a></li>
                 <li class="suppliyer-reports-active-li"><a href="<?php echo $base_url; ?>reports/suppliyers_reports" ><i class="fa fa-files-o "></i> <span>সরবহকারী রিপোর্ট</span></a></li>
                 <li class="report-stock-active-li"><a href="<?php echo $base_url; ?>reports/stock" ><i class="fa fa-files-o "></i> <span> স্টক রিপোর্ট </span></a></li>

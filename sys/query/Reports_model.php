@@ -1679,6 +1679,22 @@ class Reports_model extends CI_Model {
 		
 	}
 
+	public function get_commission_transport_summary($from_date, $to_date, $supplier_id)
+	{
+		$this->db->select("COUNT(*) AS total_lots, COALESCE(SUM(CAST(pt.total_trans_price AS DECIMAL(14,2))),0) AS total_price, COALESCE(SUM(COALESCE(s.sales_total,0)),0) AS total_sales");
+		$this->db->from('db_purchase_transports_info pt');
+		$this->db->join('db_purchase_commission_submited pc', 'pc.trans_aauto_primary_idddd_un = pt.db_purchase_transports_info_a_idd', 'inner');
+		$sales_sub = "(SELECT si.trans_uniq_primary_id, SUM(CAST(si.total_sales_price_cost_sss AS DECIMAL(14,2))) AS sales_total FROM db_salesitems si WHERE si.trans_uniq_primary_id IS NOT NULL AND si.trans_uniq_primary_id != '' GROUP BY si.trans_uniq_primary_id) s";
+		$this->db->join($sales_sub, 's.trans_uniq_primary_id = pt.db_purchase_transports_info_a_idd', 'left');
+		$this->db->where('pt.pur_status_buy_change', 2);
+		$this->db->where('pt.pur_comsn_complete_check', 1);
+		$this->db->where("pt.pur_date_timsssss >= '$from_date' AND pt.pur_date_timsssss <= '$to_date'");
+		if ($supplier_id != '' && $supplier_id != null) {
+			$this->db->where('pt.sup_id_ass_iddd', $supplier_id);
+		}
+		return $this->db->get()->row();
+	}
+
 
 
 }

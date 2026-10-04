@@ -348,6 +348,33 @@ class Reports extends MY_Controller {
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
+	public function commission_profit_loss()
+	{
+		$this->permission_check('profit_report');
+		$data=$this->data;
+		$data['page_title']= 'কমিশন লাভ-ক্ষতি';
+		$data['suppliers']=$this->buy->get_all_suppliers();
+		$this->load->view('report-commission-profit-loss', $data);
+	}
+
+	public function get_commission_profit_loss_data()
+	{
+		$from_date 	= date('Y-m-d', strtotime($this->input->post('from_date')));
+		$to_date 	= date('Y-m-d', strtotime($this->input->post('to_date')));
+		$supplier_id = $this->input->post('supplier_id');
+
+		$result = $this->reports->get_commission_transport_summary($from_date, $to_date, $supplier_id);
+
+		$data = array(
+			'total_lots' 	=> (int)$result->total_lots,
+			'total_price' 	=> (float)$result->total_price,
+			'total_sales' 	=> (float)$result->total_sales
+		);
+		$data['net'] 		= $data['total_sales'] - $data['total_price'];
+		$data['net_status'] = ($data['net'] >= 0) ? 'লাভ' : 'ক্ষতি';
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
 	
 }
 
