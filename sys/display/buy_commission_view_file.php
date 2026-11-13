@@ -34,6 +34,16 @@
                 position: relative;
                 overflow: hidden;
             }
+            .nav-tabslia .lot-tab-main,
+            .nav-tabslia .lot-tab-bosta {
+                display: block;
+                white-space: nowrap;
+                text-align: center;
+            }
+            .nav-tabslia .lot-tab-bosta {
+                font-size: 13px;
+                opacity: 0.85;
+            }
             .nav-tabs > li > a::before {
                 content: "";
                 position: absolute;

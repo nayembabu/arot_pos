@@ -56,7 +56,8 @@ $(document).on('change', '.supp_select_unq_idds', function () {
                 for (let k = 0; k < rp.products_info.length; k++) {
                     html_data += `<li class=" click_transport_lot_no" trans_idds="${rp.products_info[k].db_purchase_transports_info_a_idd}" >
                                     <a class="nav-tabslia "data-toggle="tab" href="#home">
-                                    ${rp.products_info[k].pur_date_timsssss} ==> ${rp.products_info[k].ttl_item_kg_trans}kg
+                                        <span class="lot-tab-main">${rp.products_info[k].pur_date_timsssss} ==> ${rp.products_info[k].ttl_item_kg_trans}kg</span>
+                                        <span class="lot-tab-bosta">${parseFloat(rp.products_info[k].ttl_items_bosta_this_trans || 0)} বস্তা</span>
                                     </a>
                                 </li>`;
                 }
