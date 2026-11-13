@@ -288,6 +288,69 @@
             #final-sale {
                 text-align: right;
             }
+            /* ===== লট ট্যাব স্ক্রল (বাম/ডান তীর) ===== */
+            .lot-nav-wrap {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .lot-nav-arrow {
+                flex: 0 0 auto;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 42px;
+                height: 42px;
+                padding: 0;
+                border: 0;
+                border-radius: 50%;
+                color: #fff;
+                font-size: 16px;
+                cursor: pointer;
+                background: linear-gradient(to right, #2c3e50, #34495e);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+                transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+            }
+            .lot-nav-arrow:hover:not(:disabled) {
+                transform: scale(1.1);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
+            }
+            .lot-nav-arrow:focus-visible {
+                outline: 2px solid #ffc107;
+                outline-offset: 2px;
+            }
+            .lot-nav-arrow:disabled {
+                opacity: 0.35;
+                cursor: default;
+                box-shadow: none;
+            }
+            .lot-nav-arrow.is-hidden {
+                display: none;
+            }
+            .lot_info_assign_nav {
+                flex: 1 1 auto;
+                min-width: 0;
+                padding: 0 2px 12px;
+                overflow-x: auto;
+                overflow-y: hidden;
+                scroll-behavior: smooth;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+            .lot_info_assign_nav::-webkit-scrollbar {
+                display: none;
+            }
+            /* overflow হলে justify-content:center বাম প্রান্ত কেটে ফেলে,
+               তাই width:max-content + margin:auto ব্যবহার করা হলো */
+            .lot_info_assign_nav > .nav-tabs {
+                width: max-content;
+                margin: 0 auto;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+            }
+            .lot_info_assign_nav > .nav-tabs > li {
+                flex: 0 0 auto;
+            }
             @keyframes fadeIn {
                 from { opacity: 0; transform: translateY(10px); }
                 to { opacity: 1; transform: translateY(0); }
@@ -351,7 +414,17 @@
                                 <section class="content">
                                     <div class="box-header row container-fluid ">
                                         <div class="col-md-12 ">
-                                            <div class="lot_info_assign_nav"> </div>
+                                            <div class="lot-nav-wrap">
+                                                <button type="button" class="lot-nav-arrow lot-nav-arrow-left is-hidden" aria-label="আগের ট্যাবগুলো দেখুন">
+                                                    <i class="fa fa-chevron-left"></i>
+                                                </button>
+
+                                                <div class="lot_info_assign_nav"> </div>
+
+                                                <button type="button" class="lot-nav-arrow lot-nav-arrow-right is-hidden" aria-label="পরের ট্যাবগুলো দেখুন">
+                                                    <i class="fa fa-chevron-right"></i>
+                                                </button>
+                                            </div>
                                         </div>
 
                                         <div class="col-md-12 assign_item_lot_s"></div>
@@ -488,6 +561,88 @@
                     $currentNav.removeClass('active').addClass('disabled');
                 });
             });
+        </script>
+
+        <script>
+            // লট ট্যাব বেশি হলে দুই পাশের তীর দিয়ে আস্তে আস্তে স্ক্রল করার কোড
+            (function () {
+                var navSelector = '.lot_info_assign_nav';
+
+                function getNav() {
+                    return document.querySelector(navSelector);
+                }
+
+                function refreshLotNavArrows() {
+                    var nav = getNav();
+                    if (!nav) {
+                        return;
+                    }
+
+                    var wrap = nav.closest('.lot-nav-wrap');
+                    if (!wrap) {
+                        return;
+                    }
+
+                    var leftBtn = wrap.querySelector('.lot-nav-arrow-left');
+                    var rightBtn = wrap.querySelector('.lot-nav-arrow-right');
+                    var maxScroll = nav.scrollWidth - nav.clientWidth;
+                    var isScrollable = maxScroll > 2;
+
+                    // ট্যাব কম থাকলে দুই তীরই লুকানো থাকবে
+                    leftBtn.classList.toggle('is-hidden', !isScrollable);
+                    rightBtn.classList.toggle('is-hidden', !isScrollable);
+
+                    leftBtn.disabled = !isScrollable || nav.scrollLeft <= 1;
+                    rightBtn.disabled = !isScrollable || nav.scrollLeft >= maxScroll - 1;
+                }
+
+                function scrollLotNav(direction) {
+                    var nav = getNav();
+                    if (!nav) {
+                        return;
+                    }
+
+                    var step = Math.max(180, Math.round(nav.clientWidth * 0.8));
+                    var maxScroll = nav.scrollWidth - nav.clientWidth;
+                    var target = Math.max(0, Math.min(maxScroll, nav.scrollLeft + direction * step));
+
+                    if (typeof nav.scrollTo === 'function') {
+                        nav.scrollTo({ left: target, behavior: 'smooth' });
+                    } else {
+                        $(nav).animate({ scrollLeft: target }, 250);
+                    }
+
+                    // smooth scroll শেষে তীরের অবস্থা ঠিক করতে
+                    setTimeout(refreshLotNavArrows, 400);
+                }
+
+                $(document).on('click', '.lot-nav-arrow-left', function () {
+                    scrollLotNav(-1);
+                });
+
+                $(document).on('click', '.lot-nav-arrow-right', function () {
+                    scrollLotNav(1);
+                });
+
+                $(window).on('resize', refreshLotNavArrows);
+                $(window).on('load', refreshLotNavArrows);
+
+                // scroll ইভেন্ট bubble করে না, তাই সরাসরি element-এ bind করা হলো
+                $(function () {
+                    var nav = getNav();
+                    if (nav) {
+                        nav.addEventListener('scroll', refreshLotNavArrows, { passive: true });
+                    }
+
+                    refreshLotNavArrows();
+
+                    // মহাজন বদলালে AJAX-এ ট্যাব যোগ/মুছে যায় — তখনই তীরের অবস্থা আপডেট
+                    if (nav && window.MutationObserver) {
+                        new MutationObserver(refreshLotNavArrows)
+                            .observe(nav, { childList: true, subtree: true });
+                    }
+                });
+            })();
         </script>
 
     </body>
